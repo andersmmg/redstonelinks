@@ -1,4 +1,4 @@
-## Fallout Stuff Mod
+## Redstone Links Mod
 
 [Modrinth](https://modrinth.com/mod/redstonelinks)
 |

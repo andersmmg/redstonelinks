@@ -1,10 +1,11 @@
 ## Redstone Links Mod
 
-[Modrinth](https://modrinth.com/mod/redstonelinks)
-|
-[GitHub](https://github.com/andersmmg/redstonelinks)
-|
-[Issues](https://github.com/andersmmg/redstonelinks/issues)
+[![Modrinth](https://img.shields.io/badge/Modrinth-1bd96a?style=for-the-badge&logo=modrinth&logoColor=white)
+](https://modrinth.com/mod/redstonelinks)
+[![GitHub](https://img.shields.io/badge/GitHub-black?style=for-the-badge&logo=github&logoColor=white)
+](https://github.com/andersmmg/redstonelinks)
+[![Issues](https://img.shields.io/github/issues-raw/andersmmg/redstonelinks?style=for-the-badge&logo=github)
+](https://github.com/andersmmg/redstonelinks/issues)
 
 ### Description:
 

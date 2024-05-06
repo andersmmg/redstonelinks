@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "redstonelinks",
+  "version": "${version}",
+  "name": "Redstone Links",
+  "description": "",
+  "authors": [],
+  "contact": {
+    "repo": "https://github.com/andersmmg/Redstone Links"
+  },
+  "license": "All-Rights-Reserved",
+  "icon": "assets/redstonelinks/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "com.andersmmg.redstonelinks.client.RedstoneLinksClient"
+    ],
+    "main": [
+      "com.andersmmg.redstonelinks.RedstoneLinks"
+    ],
+    "fabric-datagen": [
+      "com.andersmmg.redstonelinks.RedstoneLinksDataGenerator"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}

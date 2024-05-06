@@ -124,7 +124,7 @@ ${changelog().call()}
 """
     }
     releaseAssets = remapJar
-    allowUploadToExisting.set = false
+    allowUploadToExisting = false
     dryRun = false
 }
 

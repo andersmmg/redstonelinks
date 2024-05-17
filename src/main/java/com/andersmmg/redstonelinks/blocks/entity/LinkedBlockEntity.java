@@ -1,11 +1,16 @@
 package com.andersmmg.redstonelinks.blocks.entity;
 
 import com.andersmmg.redstonelinks.RedstoneLinks;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.DispenserBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtInt;
 import net.minecraft.nbt.NbtList;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,7 +26,7 @@ public class LinkedBlockEntity extends BlockEntity {
 
     public LinkedBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.LINKED_BLOCK_ENTITY, pos, state);
-        this.propertyNames = List.of("powered", "open", "lit");
+        this.propertyNames = List.of("powered", "open", "lit", "triggered");
         initSupportedProperties();
     }
 
@@ -48,12 +53,24 @@ public class LinkedBlockEntity extends BlockEntity {
                 continue;
             }
 
+            // Check if block is powered
+            boolean powered = world.isReceivingRedstonePower(pos);
+
+            // Check if block is a dispenser
+            if (powered && linkedState.getBlock() instanceof DispenserBlock dispenserBlock) {
+                DispenserBlockEntity dispenserEntity = (DispenserBlockEntity) world.getBlockEntity(linkedPos);
+                if (dispenserEntity == null) {
+                    continue;
+                } else if (!dispenserEntity.getCachedState().get(DispenserBlock.TRIGGERED)) {
+                    dispenserBlock.scheduledTick(linkedState, (ServerWorld) world, linkedPos, world.random);
+                }
+            }
+
             // Iterate over supported properties
             for (BooleanProperty property : supportedProperties) {
                 if (linkedState.contains(property)) { // Check if property exists in the block state
-                    boolean powered = world.isReceivingRedstonePower(pos);
                     BlockState updatedState = linkedState.with(property, powered);
-                    world.setBlockState(linkedPos, updatedState, 18); // Notify clients
+                    world.setBlockState(linkedPos, updatedState, Block.NOTIFY_ALL);
                 }
             }
         }
@@ -126,6 +143,10 @@ public class LinkedBlockEntity extends BlockEntity {
 
     private boolean canBePowered(BlockPos pos) {
         BlockState linkedState = world.getBlockState(pos);
+
+        if (linkedState.isOf(Blocks.DISPENSER)) {
+            return true;
+        }
         for (BooleanProperty property : supportedProperties) {
             if (linkedState.contains(property)) {
                 return true;

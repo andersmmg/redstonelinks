@@ -144,9 +144,13 @@ public class LinkedBlockEntity extends BlockEntity {
     private boolean canBePowered(BlockPos pos) {
         BlockState linkedState = world.getBlockState(pos);
 
-        if (linkedState.isOf(Blocks.DISPENSER)) {
+        Block block = linkedState.getBlock();
+        if (block.equals(Blocks.DISPENSER)) {
             return true;
+        } else if (block.equals(Blocks.REPEATER) || block.equals(Blocks.COMPARATOR)) {
+            return false;
         }
+
         for (BooleanProperty property : supportedProperties) {
             if (linkedState.contains(property)) {
                 return true;

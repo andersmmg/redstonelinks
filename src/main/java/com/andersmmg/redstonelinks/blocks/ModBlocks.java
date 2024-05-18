@@ -2,6 +2,7 @@ package com.andersmmg.redstonelinks.blocks;
 
 import com.andersmmg.redstonelinks.RedstoneLinks;
 import com.andersmmg.redstonelinks.blocks.custom.LinkedBlock;
+import com.andersmmg.redstonelinks.blocks.custom.LinkedReceiverBlock;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -13,6 +14,7 @@ import net.minecraft.registry.Registry;
 
 public class ModBlocks {
     public static final Block LINKED_BLOCK = registerBlock("linked_block", new LinkedBlock(FabricBlockSettings.copyOf(Blocks.GLASS)));
+    public static final Block LINKED_RECEIVER = registerBlock("linked_receiver", new LinkedReceiverBlock(FabricBlockSettings.copyOf(Blocks.GLASS)));
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

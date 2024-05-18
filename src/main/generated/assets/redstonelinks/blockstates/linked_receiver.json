@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "redstonelinks:block/linked_receiver"
+    },
+    "powered=true": {
+      "model": "redstonelinks:block/linked_receiver_on"
+    }
+  }
+}

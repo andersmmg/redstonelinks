@@ -7,6 +7,6 @@
   "item.redstonelinks.linked_block_set": "Set to new frequency (%s, %s, %s)",
   "item.redstonelinks.no_linked_block": "No frequency available",
   "block.redstonelinks.linked_blocks_list": "Linked blocks: %s",
-
-  "block.redstonelinks.linked_block": "Linked Block"
+  "block.redstonelinks.linked_block": "Linked Block",
+  "block.redstonelinks.linked_receiver": "Linked Receiver"
 }

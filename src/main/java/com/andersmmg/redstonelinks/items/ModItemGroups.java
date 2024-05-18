@@ -16,6 +16,7 @@ public class ModItemGroups {
                     .icon(() -> new ItemStack(ModBlocks.LINKED_BLOCK)).entries((displayContext, entries) -> {
                         entries.add(ModBlocks.LINKED_BLOCK);
                         entries.add(ModItems.LINKER_ITEM);
+                        entries.add(ModBlocks.LINKED_RECEIVER);
                     }).build());
 
     public static void registerItemGroups() {

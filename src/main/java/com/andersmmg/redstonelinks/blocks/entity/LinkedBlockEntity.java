@@ -1,6 +1,7 @@
 package com.andersmmg.redstonelinks.blocks.entity;
 
 import com.andersmmg.redstonelinks.RedstoneLinks;
+import com.andersmmg.redstonelinks.blocks.custom.LinkedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -26,7 +27,7 @@ public class LinkedBlockEntity extends BlockEntity {
 
     public LinkedBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.LINKED_BLOCK_ENTITY, pos, state);
-        this.propertyNames = List.of("powered", "open", "lit", "triggered");
+        this.propertyNames = List.of("powered", "open", "lit", "triggered", "enabled");
         initSupportedProperties();
     }
 
@@ -54,7 +55,7 @@ public class LinkedBlockEntity extends BlockEntity {
             }
 
             // Check if block is powered
-            boolean powered = world.isReceivingRedstonePower(pos);
+            boolean powered = world.isReceivingRedstonePower(pos) && getCachedState().get(LinkedBlock.ENABLED);
 
             // Check if block is a dispenser
             if (powered && linkedState.getBlock() instanceof DispenserBlock dispenserBlock) {
@@ -69,8 +70,10 @@ public class LinkedBlockEntity extends BlockEntity {
             // Iterate over supported properties
             for (BooleanProperty property : supportedProperties) {
                 if (linkedState.contains(property)) { // Check if property exists in the block state
-                    BlockState updatedState = linkedState.with(property, powered);
-                    world.setBlockState(linkedPos, updatedState, Block.NOTIFY_ALL);
+                    if (linkedState.get(property) != powered) { // Check if property value is different
+                        BlockState updatedState = linkedState.with(property, powered);
+                        world.setBlockState(linkedPos, updatedState, Block.NOTIFY_ALL);
+                    }
                 }
             }
         }
@@ -120,7 +123,7 @@ public class LinkedBlockEntity extends BlockEntity {
     public boolean addLinkedBlock(BlockPos pos) {
         if (!linkedBlocks.contains(pos) && canBePowered(pos)) {
             linkedBlocks.add(pos);
-            RedstoneLinks.LOGGER.info("Added block at position {} to linked blocks list.", pos);
+            RedstoneLinks.LOGGER.info("Added block at position {} to linked blocks list.", pos.toString());
             markDirty();
             return true;
         }

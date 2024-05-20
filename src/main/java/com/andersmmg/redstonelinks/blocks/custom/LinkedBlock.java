@@ -27,10 +27,11 @@ import java.util.Map;
 
 public class LinkedBlock extends Block implements BlockEntityProvider {
     public static final BooleanProperty POWERED = BooleanProperty.of("powered");
+    public static final BooleanProperty ENABLED = BooleanProperty.of("enabled");
 
     public LinkedBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.stateManager.getDefaultState().with(POWERED, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(POWERED, false).with(ENABLED, true));
     }
 
     @Nullable
@@ -44,16 +45,17 @@ public class LinkedBlock extends Block implements BlockEntityProvider {
         if (world.isClient) {
             return ActionResult.SUCCESS;
         }
-        if (!player.isSneaking()) {
-            return ActionResult.PASS;
+        // check if empty hand
+        if (player.isSneaking() && player.getStackInHand(hand).isEmpty()) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof LinkedBlockEntity) {
+                List<String> linkedBlockNames = getLinkedBlocksNames(world, pos);
+                String blockNames = String.join(", ", linkedBlockNames);
+                sendChatMessage(player, Text.translatable("block.redstonelinks.linked_blocks_list", blockNames));
+            }
+            return ActionResult.CONSUME;
         }
-        BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof LinkedBlockEntity) {
-            List<String> linkedBlockNames = getLinkedBlocksNames(world, pos);
-            String blockNames = String.join(", ", linkedBlockNames);
-            sendChatMessage(player, Text.translatable("block.redstonelinks.linked_blocks_list", blockNames));
-        }
-        return ActionResult.CONSUME;
+        return ActionResult.PASS;
     }
 
     private List<String> getLinkedBlocksNames(World world, BlockPos pos) {
@@ -146,6 +148,6 @@ public class LinkedBlock extends Block implements BlockEntityProvider {
 
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        builder.add(POWERED);
+        builder.add(POWERED, ENABLED);
     }
 }

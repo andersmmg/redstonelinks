@@ -2,6 +2,7 @@ package com.andersmmg.redstonelinks.items.custom;
 
 import com.andersmmg.redstonelinks.blocks.custom.LinkedBlock;
 import com.andersmmg.redstonelinks.blocks.entity.LinkedBlockEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -29,9 +30,10 @@ public class LinkerItem extends Item {
         ItemStack stack = context.getStack();
         if (world != null && pos != null && player != null) {
             BlockState state = world.getBlockState(pos);
-            if (state.getBlock() instanceof LinkedBlock) {
+            if (!context.getPlayer().isSneaking() && state.getBlock() instanceof LinkedBlock linkedBlock) {
                 stack.getOrCreateNbt().putLong("linkedBlockPos", pos.asLong());
                 sendMessage(player, Text.translatable("item.redstonelinks.linked_block_set", pos.getX(), pos.getY(), pos.getZ()));
+                world.setBlockState(pos, state.with(LinkedBlock.ENABLED, true), Block.NOTIFY_ALL);
                 return ActionResult.SUCCESS;
             } else {
                 BlockPos linkedBlockPos = BlockPos.fromLong(stack.getOrCreateNbt().getLong("linkedBlockPos"));

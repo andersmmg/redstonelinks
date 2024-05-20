@@ -18,6 +18,7 @@ wiring and streamlining your redstone-powered creations.
 
 - **Linked Block:** Remote control redstone blocks by powering one block
 - **Redstone Linker:** Add blocks to linked blocks to remote control them
+- **Linked Receiver:** Power any redstone block remotely with a receiver
 
 ### Downloads
 

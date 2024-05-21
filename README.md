@@ -1,4 +1,4 @@
-## Redstone Links Mod
+![Redstone Links](https://github.com/andersmmg/redstonelinks/assets/16022203/3f98ea4a-593f-4ab0-ad51-41cf39120372)
 
 [![Modrinth](https://img.shields.io/badge/Modrinth-1bd96a?style=for-the-badge&logo=modrinth&logoColor=white)
 ](https://modrinth.com/mod/redstonelinks)
